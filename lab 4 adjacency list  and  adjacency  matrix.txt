@@ -1,0 +1,225 @@
+#Adjacency Matrix Representation
+
+n,m=map(int, input().split())
+mat=[]
+for i in range(n):
+    row=[]
+    for j in range(n):
+        row.append(0)
+    mat.append(row)
+ 
+for k in range(m):
+    x,y,z=map(int, input().split())
+    mat[x-1][y-1]=z
+ 
+for i in range(n):
+    for j in range(n):
+        print(mat[i][j], end=" ")
+    print()
+
+
+
+#Adjacency List Representation
+
+n,m=map(int, input().split())
+u=input().split()
+lis1=[]
+num=len(u)
+for i in range(num):
+    lis1.append(int(u[i]))
+ 
+v=input().split()
+lis2=[]
+for i in range(num):
+    lis2.append(int(v[i]))
+ 
+w=input().split()
+lis3=[]
+for i in range(num):
+    lis3.append(int(w[i]))
+ 
+adj_lis=[]
+ 
+for x in range(n):
+  adj_lis.append([])
+ 
+for i in range(m):
+    ux,vx,wx=lis1[i],lis2[i],lis3[i]
+    adj_lis[ux-1].append((vx,wx))
+ 
+for j in range(n):
+    print(f"{j+1}:",end="")
+    for p,q in adj_lis[j]:
+        print(f"({p},{q})",end="")
+    print()
+
+
+
+#Graph Metamorphosis
+
+n=int(input())
+lis=[]
+for i in range(n):
+    lis1=[0]*n
+    lis.append(lis1)
+ 
+for j in range(n):
+    u=input().split()
+    lis2=[]
+    num=len(u)
+    for i in range(num):
+        lis2.append(int(u[i]))
+    for k in range(1,len(lis2)):
+        x=lis2[k]
+        lis[j][x]=1
+ 
+for a in range(n):
+    for b in range(n):
+        print(lis[a][b], end=" ")
+    print()
+
+
+
+#The Seven Bridges of Königsberg
+
+n,m=map(int,input().split())
+u=input().split()
+lis1=[]
+num=len(u)
+for i in range(num):
+    lis1.append(int(u[i]))
+    
+v=input().split()
+lis2=[]
+for i in range(num):
+    lis2.append(int(v[i]))
+ 
+degree=[0]*(n+1)
+edge=0
+ 
+for j in range(m):
+    degree[lis1[j]]+=1
+    degree[lis2[j]]+=1
+ 
+for k in range(1,n+1):
+    if degree[k]%2!=0:
+        edge+=1
+ 
+if edge==0 or edge==2:
+    print("YES")
+else:
+    print("NO")
+
+
+
+#Edge Queries
+
+n,m=map(int,input().split())
+u=input().split()
+lis1=[]
+num=len(u)
+for i in range(num):
+    lis1.append(int(u[i]))
+ 
+v=input().split()
+lis2=[]
+for i in range(num):
+    lis2.append(int(v[i]))
+diff=[0]*n
+ 
+for j in range(m):
+    diff[lis1[j]-1]-=1
+    diff[lis2[j]-1]+=1
+for i in diff:
+    print(i, end=" ")
+
+
+
+
+#The King of Königsberg
+
+n=int(input())
+x,y=map(int, input().split())
+ 
+move=[]
+ 
+if 0<x-1<=n and 0<y-1<=n:
+    move.append((x-1,y-1))
+if 0<x+1<=n and 0<y+1<=n:
+    move.append((x+1,y+1))
+if 0<x+1<=n and 0<y<=n:
+    move.append((x+1,y)) 
+if 0<x<=n and 0<y+1<=n:
+    move.append((x,y+1)) 
+if 0<x-1<=n and 0<y<=n:
+    move.append((x-1,y))
+if 0<x<=n and 0<y-1<=n:
+    move.append((x,y-1))
+if 0<x+1<=n and 0<y-1<=n:
+    move.append((x+1,y-1))
+if 0<x-1<=n and 0<y+1<=n:
+    move.append((x-1,y+1))
+ 
+move.sort()
+ 
+print(len(move))
+ 
+for a, b in move:
+    print(a, b)
+
+
+
+#The Knights of Königsberg
+
+n,m,k=map(int,input().split())
+position=set()
+flag=False
+for _ in range(k):
+    x,y=map(int,input().split())
+    position.add((x,y))
+move=[(2,1),(1,2),(-1,2),(-2,1),(-2,-1),(-1,-2),(1,-2),(2,-1)]
+for x,y in position:
+    for a,b in move:
+        p=x+a
+        q=y+b
+        if (p,q) in position:
+            print("YES")
+            flag=True
+            break
+    if flag==True:
+        break
+if flag==False:
+    print("NO")
+
+
+
+
+#Coprime Graph
+
+import math
+ 
+n, q = map(int, input().split()) 
+adj = []
+for i in range(n+1):
+    adj.append([])
+ 
+for j in range(1, n+1): 
+    for k in range(j+1, n+1): 
+        if math.gcd(j,k)==1: 
+            adj[j].append(k) 
+            adj[k].append(j)
+ 
+for p in range(1,n+1): 
+    adj[p].sort()
+ 
+res=[]
+ 
+for i in range(q):
+    x,k = map(int, input().split())
+    if k <= len(adj[x]):
+        res.append(str(adj[x] [k-1])) 
+    else:
+        res.append("-1")
+ 
+for a in res:
+    print(a)

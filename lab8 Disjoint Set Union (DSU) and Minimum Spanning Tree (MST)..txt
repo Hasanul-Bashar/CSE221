@@ -1,0 +1,79 @@
+#Friendship
+
+def find(x, parent):
+    if parent[x]!=x:
+        parent[x]=find(parent[x], parent)
+    return parent[x]
+ 
+def union(a,b,parent, size):
+    Ra=find(a,parent)
+    Rb=find(b,parent)
+    if Ra!=Rb:
+        if size[Ra]<size[Rb]:
+            Ra,Rb=Rb,Ra
+        parent[Rb]=Ra
+        size[Ra]+=size[Rb]
+    print(size[Ra])
+ 
+ 
+n,k=map(int, input().split())
+parent=list(range(n+1))
+size=[1]*(n+1)
+ 
+for i in range(k):
+    a,b=map(int, input().split())
+    union(a,b,parent,size)
+
+
+
+
+#Help the King!
+
+def Root(x,parent):
+    if parent[x]!=x:
+        parent[x]=Root(parent[x], parent)
+    return parent[x]
+ 
+def union(a,b,parent,rank):
+    ra,rb=Root(a,parent),Root(b,parent)
+    if ra==rb:
+        return False
+    if rank[ra]<rank[rb]:
+        parent[ra]= rb
+    elif rank[ra]>rank[rb]:
+        parent[rb]=ra
+    else:
+        parent[rb]=ra
+        rank[ra]+=1
+    return True
+ 
+def solve():
+    n,m=map(int,input().split())
+    edges=[]
+    for i in range(m):
+        u,v,w=map(int, input().split())
+        edges.append((w,u,v))
+ 
+    edges.sort()
+ 
+    parent=[]
+    for i in range(n+1):
+        parent.append(i)
+ 
+    rank=[0]*(n+1)
+ 
+    cost=0
+    used=0
+ 
+    for w,u,v in edges:  
+        if union(u,v,parent,rank):
+            if used==n-1:
+                break
+            cost+=w
+            used+=1
+ 
+ 
+    print(cost)
+solve()
+
+

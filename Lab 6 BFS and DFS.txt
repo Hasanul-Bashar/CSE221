@@ -1,0 +1,190 @@
+#Advising
+
+from collections import defaultdict
+from collections import deque
+ 
+n,m=map(int, input().split())
+dct=graph = defaultdict(list)
+degree=[0]*(n+1)
+for i in range(m):
+    x,y=map(int, input().split())
+    dct[x].append(y)
+    degree[y]+=1
+q=deque()
+for i in range(1,n+1):
+    if degree[i]==0:
+        q.append(i)
+order=[]
+while q:
+    course=q.popleft()
+    order.append(course)
+    for new in dct[course]:
+        degree[new]-=1
+        if degree[new]==0:
+            q.append(new)
+if len(order)==n:
+    print(*order)
+else:
+    print(-1)
+
+
+
+#A Football Match
+
+from collections import defaultdict
+from collections import deque
+ 
+n,m=map(int, input().split())
+lis1=[]
+for i in range(n+1):
+    lis1.append([])
+ 
+for i in range(m):
+    u,v=map(int, input().split())
+    lis1[u].append(v)
+    lis1[v].append(u)
+ 
+player=[-1]*(n+1)
+count=0
+ 
+for i in range(1,n+1):
+    if player[i]==-1:         
+        q=deque([i])
+        player[i]=0
+        c1,c2=1,0
+ 
+        while q:
+            u=q.popleft()
+            for v in lis1[u]:
+                if player[v]==-1:
+                    player[v]=1-player[u]
+                    if player[v]==0:
+                        c1+=1
+                    else:
+                        c2+=1
+                    q.append(v)
+ 
+        count+=max(c1,c2)
+ 
+print(count)
+
+
+
+#The Knight of Königsberg
+
+from collections import deque
+def chess():
+    n=int(input())
+    x1,y1,x2,y2=map(int,input().split())
+    move=[(2,1),(1,2),(-1,2),(-2,1),(-2,-1),(-1,-2),(1,-2),(2,-1)]
+ 
+    q1=deque([(x1,y1)])
+    flag=True
+    visit=[[-1 for _ in range(n+1)] for _ in range(n+1)]
+    visit[x1][y1]=0
+ 
+    
+        
+    while q1:
+        m1,m2=q1.popleft()
+        if (m1,m2)==(x2,y2):
+            print(visit[m1][m2])
+            flag=False
+            return
+ 
+        for a1 in move:
+            x,y=a1[0]+m1,a1[1]+m2
+            if 1<=x<=n and 1<=y<=n and visit[x][y]==-1:   
+                q1.append((x,y))
+                visit[x][y]=visit[m1][m2]+1
+    if flag==True:
+        print(-1)
+chess()
+
+
+
+
+#What's the Diameter?
+
+from collections import deque
+ 
+n = int(input())
+ 
+lis1=[]
+for i in range(n+1):
+    lis1.append([])
+ 
+for i in range(n-1):
+    u, v = map(int, input().split())
+    lis1[u].append(v)
+    lis1[v].append(u)
+ 
+def bfs(s):
+    dist=[-1]*(n+1)
+    dist[s]=0
+    q=deque([s])
+    far_node=s
+    max_dist = 0
+ 
+    while q:
+        u=q.popleft()
+        if dist[u] > max_dist:
+            max_dist=dist[u]
+            far_node=u
+        
+        for v in lis1[u]:
+            if dist[v]==-1:
+                dist[v]=dist[u]+1
+                q.append(v)
+                
+    return far_node,max_dist,dist
+ 
+a1,a2,a3=bfs(1)
+ 
+b1,dis,b3= bfs(a1)
+ 
+print(dis)
+print(a1, b1)
+
+
+
+
+#Nearest Tour Destination
+
+from collections import deque
+ 
+n,m,s,q=map(int, input().split())
+lis1=[]
+for i in range(n+1):
+    lis1.append([])
+ 
+for i in range(m):
+    u,v=map(int, input().split())
+    lis1[u].append(v)
+    lis1[v].append(u)
+ 
+strt=[]
+d=input().split()
+for i in range(len(d)):
+    strt.append(int(d[i]))
+dest=[]
+e=input().split()
+ 
+for i in range(len(e)):
+    dest.append(int(e[i]))
+ 
+dist=[-1]*(n+1)
+q=deque()
+ 
+for x in strt:
+    dist[x] = 0
+    q.append(x)
+ 
+while q:
+    u=q.popleft()
+    for v in lis1[u]:
+        if dist[v]==-1:
+            dist[v]=dist[u]+1
+            q.append(v)
+
+

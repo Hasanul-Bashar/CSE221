@@ -1,0 +1,205 @@
+#Two Sum Trouble
+x=input().split()
+n=int(x[0])
+s=int(x[1])
+a=input().split()
+ 
+for i in range(n):
+    a[i]=int(a[i])
+ 
+l=0
+r=n-1
+flag=True
+while l<r:
+    sum=a[l]+a[r]
+    if sum==s:
+        flag=False
+        break
+    elif sum<s:
+        l+=1
+    elif sum>s:
+        r-=1
+ 
+if flag==True:
+    print(-1)
+else:
+    print(f"{l+1} {r+1}")
+
+
+
+#Two Sum Revisited
+x=input().split()
+n1=int(x[0])
+n2=int(x[1])
+s=int(x[2])
+ 
+a1=input().split()
+a2=input().split()
+ 
+for i in range(n1):
+    a1[i]=int(a1[i])
+for i in range(n2):
+    a2[i]=int(a2[i])
+ 
+l=0
+r=n2-1  
+l1=0
+r1=0
+min=10**8
+ 
+while l<n1 and r>=0:
+    sum=a1[l]+a2[r]
+    diff=abs(s-sum)
+    if diff<min:
+        min=diff
+        l1=l+1
+        r1=r+1
+    if sum<s:
+        l+=1
+    else:
+        r-=1
+ 
+print(f"{l1} {r1}")
+
+
+
+#Triple The Trouble
+x=input().split()
+n=int(x[0])
+s=int(x[1])
+a1=input().split()
+for i in range(n):
+    a1[i]=int(a1[i])
+ 
+pair=[]
+for j in range(n):
+    pair.append((a1[j],j+1))
+ 
+ 
+pair.sort()
+flag=True
+for i in range(n-2):
+    new=i
+    l=i+1
+    r=n-1
+ 
+ 
+    while l<r:
+        sum=pair[i][0]+pair[l][0]+pair[r][0]
+        if sum==s:
+            print(f"{pair[new][1]} {pair[l][1]} {pair[r][1]}")
+            flag=False
+            break
+        elif sum<s:
+            l+=1
+        elif sum>s:
+            r-=1
+    if flag==False:
+        break
+if flag==True:
+    print(-1)
+
+
+
+# A Beautiful Sorted List
+n1=int(input())
+a=input().split()
+for i in range(n1):
+    a[i]=int(a[i])
+ 
+m1=int(input())
+b=input().split()
+for i in range(m1):
+    b[i]=int(b[i])
+new=[]
+l1=l2=0
+while l1<n1 and l2<m1:
+    if a[l1]<=b[l2]:
+        new.append(a[l1])
+        l1+=1
+    else:
+        new.append(b[l2])
+        l2+=1
+ 
+while l1<n1:
+    new.append(a[l1])
+    l1+=1
+ 
+while l2<m1:
+    new.append(b[l2])
+    l2+=1
+ 
+ 
+for i in range(len(new)):
+    print(new[i], end=" ")
+
+
+
+#Longest Subarray Sum
+x=input().split()
+n=int(x[0])
+k=int(x[1])
+a=input().split()
+for i in range(n):
+    a[i]=int(a[i])
+ 
+l1=r1=s=0
+ 
+for j in range(n):
+    s+=a[j]
+    while s>k:
+        s-=a[l1]
+        l1+=1
+    
+    if j+1-l1>r1:
+        r1=j+1-l1
+print(r1)
+ 
+
+#Count the Numbers
+x=input().split()
+n=int(x[0])
+s=int(x[1])
+a=input().split()
+ 
+for i in range(n):
+    a[i]=int(a[i])
+ 
+for i in range(s):
+    p=input().split()
+    l=int(p[0])
+    r=int(p[1])
+    l1=0
+    r1=n
+    while l1<r1:
+        mid=(l1+r1)//2
+        if a[mid]<l:
+            l1=mid+1
+        else:
+            r1=mid
+    left=l1
+    
+    l2=0
+    r2=n
+    while l2<r2:
+        mid=(l2+r2)//2
+        if a[mid]<=r:
+            l2=mid+1
+        else:
+            r2=mid
+    right=l2
+ 
+    print(right-left)
+
+
+#Searching is Fun
+n=int(input())
+for i in range(n):
+    a=input().split()
+    k=int(a[0])
+    x=int(a[1])
+    num=k+((k-1)//(x-1))
+    print(num)
+
+
+

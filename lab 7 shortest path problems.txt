@@ -1,0 +1,296 @@
+#Shortest Path
+
+import heapq
+ 
+N,M,S,D=map(int, input().split())
+u=list(map(int, input().split()))
+v=list(map(int, input().split()))
+w=list(map(int, input().split()))
+ 
+graph=[]
+for i in range(N+1):
+    graph.append([])
+ 
+for i in range(M):
+    graph[u[i]].append((v[i],w[i]))
+ 
+upper=10**15
+distance=[upper]*(N+1)
+parent=[-1]*(N+1)
+ 
+def dijkstra(s,g):
+    distance[s]=0
+    p=[(0,s)]
+    while p:
+        d,u=heapq.heappop(p)
+        if d>distance[u]:
+            continue
+        for v, wt in g[u]:
+            new_dist=d+wt
+            if distance[v]>new_dist:
+                distance[v]=new_dist
+                parent[v]=u
+                heapq.heappush(p,(new_dist,v))
+ 
+ 
+dijkstra(S,graph)
+ 
+ 
+if distance[D]==upper:
+    print(-1)
+else:
+    path=[]
+    cur=D
+    while cur!=-1:
+        path.append(cur)
+        cur=parent[cur]
+ 
+    rev=[]
+    for i in range(len(path)-1, -1, -1):
+        rev.append(path[i])
+ 
+    print(distance[D])
+    print(*rev)
+
+
+
+#Where to Meet?
+
+import heapq,sys
+ 
+upper=10**15
+ 
+def dijkstra(s,n,g):
+    time=[upper]*(n+1)
+    time[s]=0
+    p=[(0,s)]
+    while len(p)>0:
+        d_max,u=heapq.heappop(p)
+        if d_max>time[u]:
+            continue
+        for v,w in g[u]:
+            new=d_max+w
+            if time[v]>new:
+                time[v]=new
+                heapq.heappush(p,(time[v],v))
+    return time
+ 
+N,M,S,T=map(int,input().split())
+graph=[]
+ 
+for i in range(N+1):
+    graph.append([])
+ 
+for i in range(M):
+    u,v,w=map(int,input().split())
+    graph[u].append((v,w))
+ 
+alice=dijkstra(S,N,graph)
+bob=dijkstra(T,N,graph)
+max_time=upper
+meet=-1
+flag=False
+ 
+for v in range(1, N+1):
+    if alice[v]>=upper or bob[v]>=upper:
+        continue
+    
+    meet_time=max(alice[v], bob[v])
+    
+    if meet_time<max_time or (meet_time==max_time and v<meet):
+        max_time=meet_time
+        meet=v
+        flag=True
+ 
+ 
+if flag==False:
+    print(-1)
+else:
+    print(max_time,meet)
+
+
+
+#Minimize the Danger
+
+import heapq
+ 
+N,M=map(int, input().split())
+graph=[]
+ 
+for i in range(N+1):
+    graph.append([])
+ 
+for i in range(M):
+    u,v,w=map(int, input().split())
+    graph[u].append((v, w))
+    graph[v].append((u, w))  
+ 
+upper=10**18
+dng=[upper]*(N+1)
+dng[1]=0
+ 
+p=[(0, 1)] 
+ 
+ 
+while len(p)>0:
+    d, u=heapq.heappop(p)
+    if d>dng[u]:
+        continue
+    for v,w in graph[u]:
+        new_dng=max(d, w)
+        if new_dng<dng[v]:
+            dng[v]=new_dng
+            heapq.heappush(p,(new_dng,v))
+            
+ 
+ 
+res=[]
+for i in range(1,N+1):
+    if dng[i]==upper:
+        res.append(-1)
+    else:
+        res.append(dng[i])
+ 
+print(*res)
+
+
+
+
+#Beautiful Path
+
+import heapq
+ 
+ 
+upper=10**18
+ 
+N,M,S,D = map(int, input().split())
+weight=list(map(int, input().split())) 
+ 
+graph=[]
+ 
+for i in range(N+1):
+    graph.append([])
+ 
+for i in range(M):
+    u,v=map(int, input().split())
+    graph[u-1].append(v-1)
+ 
+dist=[upper]*(N+1)
+dist[S-1]=weight[S-1]
+ 
+p=[(dist[S-1], S-1)] 
+ 
+while len(p)>0:
+    total,u=heapq.heappop(p)
+    if total>dist[u]:
+        continue
+    for v in graph[u]:
+        new_cost=total+weight[v]
+        if new_cost<dist[v]:
+            dist[v]=new_cost
+            heapq.heappush(p,(new_cost, v))
+ 
+if dist[D-1]==upper:
+    print(-1)
+else:
+    print(dist[D-1])
+
+
+
+
+#Parity Edges
+
+import heapq
+ 
+N,M=map(int, input().split())
+u=list(map(int, input().split()))
+v=list(map(int, input().split()))
+w=list(map(int, input().split()))
+ 
+ 
+graph=[]
+ 
+for i in range(N+1):
+    graph.append([])
+ 
+for i in range(M):
+    ux,vx,wx=u[i],v[i],w[i]
+    graph[ux].append((vx,wx))
+ 
+upper=10**18
+ 
+dis=[]
+for j in range(N+1):
+    dis.append([upper,upper])
+ 
+ 
+p=[]
+ 
+for v,w in graph[1]:
+    parity=w%2
+    dis[v][parity]=w
+    heapq.heappush(p,(w,v,parity))
+ 
+while len(p)>0:
+    d,u,last_parity=heapq.heappop(p)
+    if d>dis[u][last_parity]:
+        continue
+    for v,w in graph[u]:
+        parity=w%2
+        if parity!=last_parity:  
+            new_dis=d+w
+            if new_dis<dis[v][parity]:
+                dis[v][parity]=new_dis
+                heapq.heappush(p,(new_dis,v,parity))
+ 
+if dis[N][0]<dis[N][1]:
+    ans=dis[N][0]
+else:
+    ans=dis[N][1]
+ 
+if ans==upper:
+    print(-1)
+else:
+    print(ans)
+ 
+
+
+#Shortest Path Revisited
+
+import heapq
+ 
+N, M, S, D = map(int, input().split())
+ 
+graph=[]
+ 
+for i in range(N+1):
+    graph.append([])
+ 
+for j in range(M):
+    u,v,w=map(int,input().split())
+    graph[u].append((v,w))
+    graph[v].append((u,w))  
+ 
+upper=10**18
+dis1=[upper]*(N+1)
+dis2=[upper]*(N+1)
+ 
+dis1[S]=0
+p=[(0, S)]
+ 
+while len(p)>0:
+    dis,u=heapq.heappop(p)
+    for v,w in graph[u]:
+        new_dis=dis+w
+        if new_dis<dis1[v]:
+            dis2[v]=dis1[v]
+            dis1[v]=new_dis
+            heapq.heappush(p,(dis1[v],v))
+        elif dis1[v]<new_dis<dis2[v]:
+            dis2[v]=new_dis
+            heapq.heappush(p,(dis2[v],v))
+ 
+if dis2[D]==upper:
+    print(-1)
+else:
+    print(dis2[D])

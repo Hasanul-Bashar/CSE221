@@ -1,0 +1,169 @@
+#Count the Inversion
+
+def merge(a, b):
+    lis=[]
+    i=j=0
+    c=0
+    while i<len(a) and j<len(b):
+        if a[i]<b[j]:
+            lis.append(a[i])
+            i+=1
+        else:
+            lis.append(b[j])
+            j+=1
+            c+=len(a)-i  
+    lis.extend(a[i:])
+    lis.extend(b[j:])
+    return lis,c
+ 
+def mergeSort(arr):
+    if len(arr)<=1:
+        return arr,0
+    mid = len(arr)//2
+    left,inv_left=mergeSort(arr[:mid])
+    right,inv_right=mergeSort(arr[mid:])
+    merged,inv_merge=merge(left, right)
+    total_inversions=inv_left+inv_right+inv_merge
+    return merged,total_inversions
+ 
+ 
+a = int(input())
+b = list(map(int, input().split()))
+ 
+ 
+arr,count = mergeSort(b)
+ 
+ 
+print(count)
+print(*arr)
+
+
+
+#Fast Power Drift
+
+n=input().split()
+x=int(n[0])
+y=int(n[1])
+ans=1
+while y>0:
+    if y%2==1:
+        ans=(ans*(x%107))%107
+    
+    x=((x%107)**2)%107
+    y=y//2
+print(ans)
+
+
+
+
+#Fast Matrix Drift
+
+T = int(input())
+for i in range(T):
+    a11, a12, a21, a22 = map(int, input().split())
+    num=int(input())
+    mod=(10**9)+7
+    A=[[a11, a12], [a21, a22]]
+ 
+    def mtrx(A, B):
+        res = [[0, 0], [0, 0]]
+        res[0][0]=(A[0][0]*B[0][0] + A[0][1]*B[1][0])%mod
+        res[0][1]=(A[0][0]*B[0][1] + A[0][1]*B[1][1])%mod
+        res[1][0]=(A[1][0]*B[0][0] + A[1][1]*B[1][0])%mod
+        res[1][1]=(A[1][0]*B[0][1] + A[1][1]*B[1][1])%mod
+        return res
+ 
+    def mat_pow(A,P):
+        result=[[1, 0], [0, 1]]
+        while P>0:
+            if P%2==1:
+                result=mtrx(result,A)
+            A=mtrx(A,A)
+            P=P//2
+        return result
+ 
+    obj=mat_pow(A,num)
+ 
+    for r in obj:
+        print(*r)
+
+
+
+
+#Ordering Binary Tree
+
+n=int(input())
+x=list(map(int, input().split()))
+y=[]
+ 
+def min_height(x,y):
+    if len(x)==0:
+        return
+    else:
+        mid=len(x)//2
+        y.append(x[mid])
+        min_height(x[:mid],y)
+        min_height(x[mid+1:],y)
+        return y
+ 
+print(" ".join(map(str, min_height(x,y))))
+
+
+
+#220 Trees
+
+n=int(input())
+ 
+inp1=list(map(int, input().split()))
+inp2=list(map(int, input().split()))
+ 
+def find_index(arr,val):
+    for i in range(len(arr)):
+        if arr[i]==val:
+            return i
+ 
+def trees_post_order(ino, pre):
+    if not ino or not pre:
+        return []
+ 
+    root=pre[0]
+    idx=find_index(ino,root)
+ 
+    left=trees_post_order(ino[:idx], pre[1:idx+1])
+    right=trees_post_order(ino[idx+1:], pre[idx+1:])
+ 
+    return left + right + [root]
+ 
+postorder=trees_post_order(inp1,inp2)
+print(" ".join(map(str, postorder)))
+
+
+
+#220 Trees Reassessed
+
+n=int(input())
+inorder=list(map(int, input().split()))
+postorder=list(map(int, input().split()))
+ 
+def find_index(arr,val):
+    for i in range(len(arr)):
+        if arr[i]==val:
+            return i
+ 
+def trees_pre_order(ino,post):
+    if not ino or not post:
+        return []
+ 
+    root=post[-1]
+    idx=find_index(ino,root)
+ 
+    left=trees_pre_order(ino[:idx],post[:idx])
+    right=trees_pre_order(ino[idx+1:],post[idx:-1])
+ 
+    return [root]+left+right
+ 
+preorder=trees_pre_order(inorder, postorder)
+print(" ".join(map(str, preorder)))
+
+
+

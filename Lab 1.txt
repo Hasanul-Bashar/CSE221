@@ -1,0 +1,150 @@
+#Odd or Even?
+n=int(input())
+for i in range(n):
+    a=int(input())
+    if a%2==0:
+        print(f"{a} is an Even number.")
+    else:
+        print(f"{a} is an Odd number.")
+
+
+#Can you solve Arithmetic Expressions?
+a=int(input())
+ 
+for i in range(a):
+    n=input()
+    new=n.split()
+    if new[2]=="+":
+        print(float(int(new[1])+int(new[3])))
+    elif new[2]=="-":
+        print(float(int(new[1])-int(new[3])))
+    elif new[2]=="/":
+        print(float(int(new[1])/int(new[3])))
+    elif new[2]=="*":
+        print(float(int(new[1])*int(new[3])))
+
+
+#Fast Sum
+T=int(input())
+for i in range(T):
+    n=int(input())
+    print(int((n*(n+1))/2))
+
+
+#Is Sorted?
+a=int(input())
+for i in range(a):
+    flag="YES"
+    nbr=int(input())
+    n=input().split()
+    if nbr==1:
+        print(flag)
+    else:
+        new=[0]*nbr
+        for j in range(len(n)):
+            new[j]=int(n[j])
+        for i in range(nbr-1):
+            if new[i]>new[i+1]:
+                flag="NO"
+        print(flag)
+
+
+
+#Reverse Sorting
+a=int(input(""))
+inp=input().split()
+for i in range(a):
+    inp[i]=int(inp[i])
+ 
+for i in range(a-2):
+    for j in range(a-3,i-1,-1):
+        if inp[j]>inp[j+2]:
+            inp[j],inp[j+2]=inp[j+2],inp[j]
+ 
+flag=True
+ 
+for k in range(a-1):
+     if inp[k]>inp[k+1]:
+        flag=False
+        break
+ 
+if flag==True:
+    print("YES")
+else:
+    print("NO")
+
+
+
+#f
+a=int(input())
+n=input().split()
+new=[0]*a
+for i in range(a):
+    new[i]=int(n[i])
+ 
+for k in range(a):
+    for j in range(a-1):
+        if  new[j]>new[j+1] and new[j]%2==new[j+1]%2:
+            new[j],new[j+1]=new[j+1],new[j]
+               
+for p in range(a):
+    print(new[p], end=" ")
+
+
+
+#Sorting Again??
+a= int(input())
+id=input().split()
+mrk=input().split()
+ 
+for k in range(a):
+    id[k]=int(id[k])
+    mrk[k]=int(mrk[k])
+ 
+swap=0
+ 
+for i in range(a):
+    idx=i
+    for j in range(i+1,a):
+        if mrk[j]>mrk[idx]:
+            idx=j
+        elif mrk[j]==mrk[idx] and id[j]<id[idx]:
+            idx=j
+ 
+    if idx!=i:
+        mrk[i],mrk[idx]=mrk[idx],mrk[i]
+        id[i],id[idx]=id[idx],id[i]
+        swap+=1
+ 
+print(f"Minimum swaps: {swap}")
+for p in range(a):
+    print(f"ID: {id[p]} Mark: {mrk[p]}")
+
+
+#Trains?
+a=int(input())
+lis=[0]*a
+for i in range(a):
+    trn=input().split()
+    lis[i]=(trn[0],trn[4],trn[len(trn)-1],i)
+for j in range(a):
+    idx=j
+    for k in range(j+1,a):
+        t1=lis[idx][2].split(":")
+        t2=lis[k][2].split(":")
+        t1=int(t1[0]+t1[1])
+        t2=int(t2[0]+t2[1])
+        if (lis[idx][0])>(lis[k][0]):
+            idx=k
+        elif (lis[idx][0])==(lis[k][0]) and t1<t2:
+            idx=k
+        elif (lis[idx][0])==(lis[k][0]) and t1==t2 and int(lis[idx][3])>int(lis[k][3]):
+            idx=k
+    if idx!=j:
+        lis[j],lis[idx]=lis[idx],lis[j]
+for p in range(a):
+    print(f"{lis[p][0]} will departure for {lis[p][1]} at {lis[p][2]}")
+
+
+
+
